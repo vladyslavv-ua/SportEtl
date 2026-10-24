@@ -16,8 +16,6 @@ fun main() {
         SchemaUtils.create(Tournament, Player, Team, Squad, PlayerSquad)
     }
 
-    Thread.sleep(1000)
-
     println("Enter path to old csv file:")
     val oldCsvPath = readln()
 //    val oldCsvPath = "/home/user/projects/polytech/data-engineering/sportetl/datasets/squads_archive.csv"

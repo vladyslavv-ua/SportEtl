@@ -81,6 +81,9 @@ class NewExcelETL(private val mappingInfo: ImportMappingInfo? = null) {
             .distinctBy { PlayerID }
             .select { PlayerID and FullName and DOB and Sex }
 
+        println("Transformed players")
+        transformedPlayers.print()
+
         val playersIdMapping = loadPlayers(transformedPlayers.cast(), mappingInfo?.playerIdMap)
 
         val transformedTeams = df.select {
@@ -95,6 +98,9 @@ class NewExcelETL(private val mappingInfo: ImportMappingInfo? = null) {
             }
             .sortBy { TeamID }
 
+        println("Transformed teams")
+        transformedTeams.print()
+
         val teamsIdMapping = loadTeams(transformedTeams.cast(), mappingInfo?.teamIdMap)
 
         val transformedTournaments = df.select {
@@ -104,6 +110,8 @@ class NewExcelETL(private val mappingInfo: ImportMappingInfo? = null) {
                 mappingInfo?.tournamentIdMap?.containsKey(it.TournamentID) ?: false
             }
 
+        println("Transformed tournaments")
+        transformedTournaments.print()
 
         val tournamentMapping = loadTournaments(transformedTournaments.cast(), mappingInfo?.tournamentIdMap)
 
@@ -115,6 +123,10 @@ class NewExcelETL(private val mappingInfo: ImportMappingInfo? = null) {
             .convert { TeamID }.with { teamsIdMapping[it]!! }
             .convert { TournamentID }.with { tournamentMapping[it]!! }
             .drop { mappingInfo?.squadIdMap?.containsKey(Pair(TeamID, TournamentID)) ?: false }
+
+        println("Transformed squads")
+        transformedSquads.print()
+
 
         val squadMappings = loadSquads(transformedSquads.distinctBy { TeamID and TournamentID }.cast(), mappingInfo?.squadIdMap)
         loadPlayerSquad(transformedSquads.distinctBy { PlayerID and TeamID and TournamentID }.cast(), squadMappings)

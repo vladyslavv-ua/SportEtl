@@ -22,6 +22,7 @@ dependencies {
     implementation(libs.exposed.datetime)
     implementation(libs.exposed.core)
     implementation(libs.sqlite)
+    runtimeOnly(libs.slf4j.nop)
 
     testImplementation(kotlin("test"))
 }
@@ -32,4 +33,8 @@ kotlin {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+tasks.withType<JavaExec>().configureEach {
+    jvmArgs("--enable-native-access=ALL-UNNAMED")
 }
