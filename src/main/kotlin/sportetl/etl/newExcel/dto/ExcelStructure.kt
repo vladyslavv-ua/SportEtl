@@ -11,7 +11,7 @@ interface ExcelStructure {
     val FullName: String
     val PlayerID: String
     val Pos: String?
-    val Sex: String
+    val Sex: String?
     val ShirtNo: String
     val Team: String
     val TeamID: String

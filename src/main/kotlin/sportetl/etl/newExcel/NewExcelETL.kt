@@ -62,12 +62,12 @@ class NewExcelETL(private val mappingInfo: ImportMappingInfo? = null) {
     private fun transform(df: DataFrame<ExcelStructure>) {
 
 
-        val transformedPlayers = df.convert { Sex }.with { it[0].lowercase() }
-            .drop {
-                mappingInfo?.playerIdMap?.get(PlayerID) != null
-            }
+        val transformedPlayers = df. drop {
+            mappingInfo?.playerIdMap?.get(PlayerID) != null
+        }
             .convert { Sex }.with {
-                if (it.isBlank() || it.isEmpty()) {
+                val possibleSex = it?.trim()?.firstOrNull()?.lowercase()
+                if (possibleSex.isNullOrBlank() || possibleSex.isEmpty()) {
                     val sex = Tournament.split(" ")[2][0].lowercase()
                     if (sex == "m") {
                         "m"
@@ -75,7 +75,7 @@ class NewExcelETL(private val mappingInfo: ImportMappingInfo? = null) {
                         "f"
                     }
                 } else {
-                    it.trim()
+                    possibleSex
                 }
             }
             .distinctBy { PlayerID }
@@ -128,7 +128,8 @@ class NewExcelETL(private val mappingInfo: ImportMappingInfo? = null) {
         transformedSquads.print()
 
 
-        val squadMappings = loadSquads(transformedSquads.distinctBy { TeamID and TournamentID }.cast(), mappingInfo?.squadIdMap)
+        val squadMappings =
+            loadSquads(transformedSquads.distinctBy { TeamID and TournamentID }.cast(), mappingInfo?.squadIdMap)
         loadPlayerSquad(transformedSquads.distinctBy { PlayerID and TeamID and TournamentID }.cast(), squadMappings)
 
     }
