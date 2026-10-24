@@ -1,0 +1,18 @@
+[versions]
+exposed = "1.5.0"
+sqlite = "3.53.4.0"
+dataframe = "1.0.0-rc02"
+kotlin = "2.4.21"
+exposed-datetime = "1.6.0"
+kotlinx-datetiome = "0.8.0"
+
+[libraries]
+exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
+exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed" }
+exposed-datetime = { module = "org.jetbrains.exposed:exposed-kotlin-datetime", version.ref = "exposed-datetime" }
+sqlite = { module = "org.xerial:sqlite-jdbc", version.ref = "sqlite" }
+dataframe-core = { module = "org.jetbrains.kotlinx:dataframe-core", version.ref = "dataframe" }
+dataframe-csv = { module = "org.jetbrains.kotlinx:dataframe-csv", version.ref = "dataframe" }
+dataframe-excel = { module = "org.jetbrains.kotlinx:dataframe-excel", version.ref = "dataframe" }
+dataframe-json = { module = "org.jetbrains.kotlinx:dataframe-json", version.ref = "dataframe" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetiome" }
